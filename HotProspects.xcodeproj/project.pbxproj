@@ -15,6 +15,7 @@
 		D038024C23A0DB38009B7586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D038024A23A0DB38009B7586 /* LaunchScreen.storyboard */; };
 		D0809D4323A4E26E006BBEF3 /* ProspectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0809D4223A4E26E006BBEF3 /* ProspectsView.swift */; };
 		D0809D4523A4E411006BBEF3 /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0809D4423A4E411006BBEF3 /* MeView.swift */; };
+		D0809D4723A4E4FA006BBEF3 /* Prospect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0809D4623A4E4FA006BBEF3 /* Prospect.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		D038024D23A0DB38009B7586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0809D4223A4E26E006BBEF3 /* ProspectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProspectsView.swift; sourceTree = "<group>"; };
 		D0809D4423A4E411006BBEF3 /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
+		D0809D4623A4E4FA006BBEF3 /* Prospect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prospect.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				D038024323A0DB36009B7586 /* ContentView.swift */,
 				D0809D4223A4E26E006BBEF3 /* ProspectsView.swift */,
 				D0809D4423A4E411006BBEF3 /* MeView.swift */,
+				D0809D4623A4E4FA006BBEF3 /* Prospect.swift */,
 				D038024523A0DB38009B7586 /* Assets.xcassets */,
 				D038024A23A0DB38009B7586 /* LaunchScreen.storyboard */,
 				D038024D23A0DB38009B7586 /* Info.plist */,
@@ -157,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0809D4323A4E26E006BBEF3 /* ProspectsView.swift in Sources */,
+				D0809D4723A4E4FA006BBEF3 /* Prospect.swift in Sources */,
 				D038024023A0DB36009B7586 /* AppDelegate.swift in Sources */,
 				D038024223A0DB36009B7586 /* SceneDelegate.swift in Sources */,
 				D038024423A0DB36009B7586 /* ContentView.swift in Sources */,
