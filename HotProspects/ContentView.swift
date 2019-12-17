@@ -6,20 +6,21 @@ import SwiftUI
 
 struct ContentView: View {
     var prospects = Prospects()
+    @State private var sortOrder = ProspectsView.SortOrder.name
 
     var body: some View {
         TabView {
-            ProspectsView(filter: .none)
+            ProspectsView(filter: .none, sortOrder: $sortOrder)
                 .tabItem {
                     Image(systemName: "person.3")
                     Text("Everyone")
                 }
-            ProspectsView(filter: .contacted)
+            ProspectsView(filter: .contacted, sortOrder: $sortOrder)
                 .tabItem {
                     Image(systemName: "checkmark.circle")
                     Text("Contacted")
                 }
-            ProspectsView(filter: .uncontacted)
+            ProspectsView(filter: .uncontacted, sortOrder: $sortOrder)
                 .tabItem {
                     Image(systemName: "questionmark.diamond")
                     Text("Uncontacted")

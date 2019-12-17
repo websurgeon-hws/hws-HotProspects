@@ -8,13 +8,14 @@ public class Prospect: Identifiable, Codable {
     public let id = UUID()
     public var name = "Anonymous"
     public var emailAddress = ""
+    public var date = Date()
     fileprivate(set) public var isContacted = false
 
 }
 
 public class Prospects: ObservableObject {
     static let saveKey = "SavedData"
-
+        
     @Published private(set) var people: [Prospect]
 
     func toggle(_ prospect: Prospect) {
@@ -32,7 +33,7 @@ public class Prospects: ObservableObject {
             self.people = people
         }
     }
-    
+        
     func add(_ prospect: Prospect) {
         people.append(prospect)
         save()

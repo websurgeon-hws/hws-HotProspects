@@ -9,13 +9,24 @@ import SwiftUI
 struct ProspectsView: View {
     @EnvironmentObject var prospects: Prospects
     @State private var isShowingScanner = false
-    
+    @State private var isShowingSort = false
+
     enum FilterType {
         case none, contacted, uncontacted
     }
     
+    enum SortOrder: String {
+        case name = "Name"
+        case recent = "Most Recent"
+        
+        var title: String {
+            return self.rawValue
+        }
+    }
+
     let filter: FilterType
-    
+    @Binding var sortOrder: SortOrder
+
     var title: String {
         switch filter {
         case .none:
@@ -30,11 +41,11 @@ struct ProspectsView: View {
     var filteredProspects: [Prospect] {
         switch filter {
         case .none:
-            return prospects.people
+            return try! prospects.people.sorted(by: self.peopleSorter)
         case .contacted:
-            return prospects.people.filter { $0.isContacted }
+            return try! prospects.people.filter { $0.isContacted }.sorted(by: self.peopleSorter)
         case .uncontacted:
-            return prospects.people.filter { !$0.isContacted }
+            return try! prospects.people.filter { !$0.isContacted }.sorted(by: self.peopleSorter)
         }
     }
     
@@ -69,14 +80,61 @@ struct ProspectsView: View {
                 }
             }
             .navigationBarTitle(title)
-            .navigationBarItems(trailing: Button(action: {
-                self.isShowingScanner = true
-            }) {
-                Image(systemName: "qrcode.viewfinder")
-                Text("Scan")
-            })
+            .navigationBarItems(trailing:
+                HStack {
+                    Button(action: {
+                        self.isShowingSort = true
+                    }) {
+                        Image(systemName: "arrow.up.arrow.down.square")
+                        Text("Sort")
+                    }
+                    
+                    Spacer(minLength: 20)
+                    
+                    Button(action: {
+                        self.isShowingScanner = true
+                    }) {
+                        Image(systemName: "qrcode.viewfinder")
+                        Text("Scan")
+                    }
+                }
+            )
             .sheet(isPresented: $isShowingScanner) {
-                CodeScannerView(codeTypes: [.qr], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: self.handleScan)
+                CodeScannerView(codeTypes: [.qr], simulatedData: self.randomeExampleData, completion: self.handleScan)
+            }
+            .actionSheet(isPresented: $isShowingSort) {
+                ActionSheet(title: Text("Select Order"), buttons: [
+                    .default(Text(SortOrder.name.title)) {
+                        self.sortBy(SortOrder.name)
+                    },
+                    .default(Text(SortOrder.recent.title)) {
+                        self.sortBy(SortOrder.recent)
+                    }
+                ])
+            }
+        }
+    }
+    
+    var randomeExampleData: String {
+        let names: [String] = [
+            "Paul Hudson\npaul@hackingwithswift.com",
+            "Pete Barclay\npeter@peter-barclay.com",
+            "Joe Bloggs\njoe.bloggs@example.com"
+        ]
+        return names.randomElement() ?? "Some Person\nsome.persone@example.com"
+    }
+    
+    func sortBy(_ order: SortOrder) {
+        sortOrder = order
+    }
+    
+    var peopleSorter: (_ a: Prospect, _ b: Prospect) throws -> Bool {
+        return {
+            switch self.sortOrder {
+            case .name:
+                return $0.name < $1.name
+            case .recent:
+                return $0.date > $1.date
             }
         }
     }
@@ -138,6 +196,6 @@ struct ProspectsView: View {
 
 struct ProspectsView_Previews: PreviewProvider {
     static var previews: some View {
-        ProspectsView(filter: .none)
+        ProspectsView(filter: .none, sortOrder: .constant(.recent))
     }
 }
