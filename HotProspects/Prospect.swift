@@ -4,15 +4,15 @@
 
 import Foundation
 
-class Prospect: Identifiable, Codable {
-    let id = UUID()
-    var name = "Anonymous"
-    var emailAddress = ""
-    fileprivate(set) var isContacted = false
+public class Prospect: Identifiable, Codable {
+    public let id = UUID()
+    public var name = "Anonymous"
+    public var emailAddress = ""
+    fileprivate(set) public var isContacted = false
 
 }
 
-class Prospects: ObservableObject {
+public class Prospects: ObservableObject {
     static let saveKey = "SavedData"
 
     @Published private(set) var people: [Prospect]
@@ -24,14 +24,13 @@ class Prospects: ObservableObject {
     }
     
     init() {
-        if let data = UserDefaults.standard.data(forKey: Self.saveKey) {
-            if let decoded = try? JSONDecoder().decode([Prospect].self, from: data) {
-                self.people = decoded
-                return
-            }
+        let result = FileManager.default.loadProspects(withName: Self.saveKey)
+        switch result {
+        case .failure:
+            self.people = []
+        case let .success(people):
+            self.people = people
         }
-
-        self.people = []
     }
     
     func add(_ prospect: Prospect) {
@@ -40,8 +39,6 @@ class Prospects: ObservableObject {
     }
     
     private func save() {
-        if let encoded = try? JSONEncoder().encode(people) {
-            UserDefaults.standard.set(encoded, forKey: Self.saveKey)
-        }
+        _ = FileManager.default.saveProspects(people, withName: Self.saveKey)
     }
 }
